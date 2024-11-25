@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Routinezz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Routinezz</h1>
+    <div id="routine-selector">
+      <button onclick="loadRoutine('morning')">Morning Routine</button>
+      <button onclick="loadRoutine('evening')">Evening Routine</button>
+    </div>
+    <div id="routine-list" class="hidden">
+      <ul id="routine-items"></ul>
+      <button id="start-btn" onclick="startRoutine()">Start Routine</button>
+      <p id="current-activity"></p>
+    </div>
+    <p id="completion-message" class="hidden">🎉 Congratulations! You've finished your routine! 🎉</p>
+  </div>
+  <audio id="ping-sound" src="ping.mp3"></audio>
+  <audio id="clap-sound" src="clap.wav"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
