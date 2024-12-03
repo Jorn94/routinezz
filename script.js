@@ -18,6 +18,7 @@ let currentTaskIndex = 0;
 let timer = null;
 let currentRoutineName = '';
 let isPaused = false;
+let totalRoutineTime = 0;
 
 // Load saved routines from localStorage
 function loadSavedRoutines() {
@@ -77,14 +78,32 @@ function loadRoutine(name) {
     `;
     routineItems.appendChild(li);
   });
+
+  // Add the + button after all tasks
+  const addTaskLi = document.createElement("li");
+  addTaskLi.className = "add-task-button";
+  addTaskLi.innerHTML = `<button onclick="addTask()"><i class="fas fa-plus"></i></button>`;
+  routineItems.appendChild(addTaskLi);
+
   document.getElementById("routine-list").classList.remove("hidden");
   document.getElementById("completion-message").classList.add("hidden");
+  document.getElementById("timer-display").textContent = "";
   clearInterval(timer);
   currentTaskIndex = 0;
 }
 
 function startRoutine() {
   currentTaskIndex = 0;
+  isPaused = false;
+  document.getElementById("timer-display").classList.remove("hidden");
+  
+  // Calculate total routine time
+  totalRoutineTime = currentRoutine.reduce((total, task) => total + parseTime(task.time), 0);
+  
+  // Reset all checkboxes
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => checkbox.checked = false);
+  
   displayCurrentTask();
   startTimer();
 }
@@ -96,11 +115,17 @@ function startTimer() {
   const timeInMs = parseTime(currentRoutine[currentTaskIndex].time);
   const startTime = Date.now();
   let pausedTime = 0;
+  let lastPauseStart = 0;
   
   updateTimeDisplay(timeInMs);
   
   timer = setInterval(() => {
     if (!isPaused) {
+      if (lastPauseStart) {
+        pausedTime += Date.now() - lastPauseStart;
+        lastPauseStart = 0;
+      }
+      
       const elapsed = Date.now() - startTime - pausedTime;
       const remaining = timeInMs - elapsed;
       
@@ -109,6 +134,8 @@ function startTimer() {
       } else {
         updateTimeDisplay(remaining);
       }
+    } else if (!lastPauseStart) {
+      lastPauseStart = Date.now();
     }
   }, 1000);
 }
@@ -116,8 +143,17 @@ function startTimer() {
 function updateTimeDisplay(ms) {
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms % 60000) / 1000);
+  const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  
+  // Show both current task time and total routine time
   document.getElementById("timer-display").textContent = 
-    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    `Current Task: ${timeStr} / Total Time: ${formatTime(totalRoutineTime)}`;
+}
+
+function formatTime(ms) {
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.floor((ms % 60000) / 1000);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
 function displayCurrentTask() {
@@ -146,11 +182,16 @@ function markTask(index) {
   if (index === currentTaskIndex) {
     currentTaskIndex++;
     clearInterval(timer);
-    if (currentTaskIndex < currentRoutine.length) {
+    
+    // Check if all tasks are completed
+    const allChecked = [...document.querySelectorAll('input[type="checkbox"]')]
+      .every(checkbox => checkbox.checked);
+    
+    if (allChecked) {
+      finishRoutine();
+    } else if (currentTaskIndex < currentRoutine.length) {
       displayCurrentTask();
       startTimer();
-    } else {
-      finishRoutine();
     }
   }
 }
@@ -202,12 +243,23 @@ function togglePause() {
   isPaused = !isPaused;
   const pauseBtn = document.getElementById('pause-btn');
   pauseBtn.innerHTML = `<i class="fas ${isPaused ? 'fa-play' : 'fa-pause'}"></i> ${isPaused ? 'Resume' : 'Pause'}`;
+  
+  // Update display while paused
+  if (isPaused) {
+    document.getElementById("current-activity").textContent += " (PAUSED)";
+  } else {
+    displayCurrentTask();
+  }
 }
 
 function resetRoutine() {
   clearInterval(timer);
   isPaused = false;
   currentTaskIndex = 0;
+  
+  // Reset pause button state
+  const pauseBtn = document.getElementById('pause-btn');
+  pauseBtn.innerHTML = `<i class="fas fa-pause"></i> Pause`;
   
   // Uncheck all checkboxes
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
