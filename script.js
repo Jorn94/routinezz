@@ -1,15 +1,47 @@
 const routines = {
   morning: [
-    { task: "Wake up", time: "5 min", feeling: "Ready to conquer the day!" },
-    { task: "Brush teeth", time: "3 min", feeling: "Fresh and clean, ready to smile!" },
-    { task: "Workout", time: "30 min", feeling: "Energized and proud of staying healthy!" },
-    { task: "Breakfast", time: "15 min", feeling: "Nourished and ready to start the day!" }
+    { 
+      task: "Hydrate", 
+      time: "5 min", 
+      feeling: "Hydrating my body shows I care for my health and sets the tone for a productive day."
+    },
+    { 
+      task: "Stretch or Move", 
+      time: "10 min", 
+      feeling: "Moving my body is an act of strength and vitality, making me feel strong and alive."
+    },
+    { 
+      task: "Meditate", 
+      time: "10 min", 
+      feeling: "Taking this time to meditate reflects my commitment to mental clarity and inner peace."
+    },
+    { 
+      task: "Gratitude", 
+      time: "5 min", 
+      feeling: "Focusing on gratitude highlights my ability to see the good in life and stay positive."
+    },
+    { 
+      task: "Set 3 Goals for Today", 
+      time: "5 min", 
+      feeling: "Setting goals shows how focused and determined I am to make the most of my day."
+    }
   ],
   evening: [
-    { task: "Dinner", time: "20 min", feeling: "Satisfied with a good meal!" },
-    { task: "Relax", time: "30 min", feeling: "Peaceful and stress-free..." },
-    { task: "Read a book", time: "15 min", feeling: "Enriched and mentally refreshed!" },
-    { task: "Sleep", time: "8 hrs", feeling: "Ready for a restful night!" }
+    { 
+      task: "Brush Teeth", 
+      time: "5 min", 
+      feeling: "Caring for my hygiene reflects my self-respect and commitment to well-being."
+    },
+    { 
+      task: "Read 10 Pages", 
+      time: "15 min", 
+      feeling: "Expanding my mind and learning new things shows how dedicated I am to growth."
+    },
+    { 
+      task: "Visualize Goals Achieved", 
+      time: "10 min", 
+      feeling: "Visualizing my success proves how ambitious and capable I am of achieving great things."
+    }
   ]
 };
 
@@ -57,9 +89,12 @@ function loadRoutine(name) {
   currentRoutine.forEach((item, index) => {
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${item.task}</span>
-      <span>${item.time}</span>
-      <input type="checkbox" id="task-${index}" onchange="markTask(${index})">
+      <div class="task-content">
+        <span>${item.task}</span>
+        <span>${item.time}</span>
+        <input type="checkbox" id="task-${index}" onchange="markTask(${index})">
+      </div>
+      <button class="delete-btn" onclick="deleteTask(${index})">×</button>
     `;
     routineItems.appendChild(li);
   });
@@ -133,12 +168,14 @@ function displayCurrentTask() {
 
 function markTask(index) {
   const checkbox = document.getElementById(`task-${index}`);
-  const taskElement = checkbox.parentElement;
+  const taskElement = checkbox.parentElement.parentElement;
   
-  // Show feeling message whenever checkbox is checked
   if (checkbox.checked) {
     const feeling = currentRoutine[index].feeling;
-    taskElement.innerHTML = `<div class="feeling-text">${feeling || 'Great job completing this task!'}</div>`;
+    taskElement.innerHTML = `
+      <div class="feeling-text">${feeling || 'Great job completing this task!'}</div>
+      <button class="delete-btn" onclick="deleteTask(${index})">×</button>
+    `;
     taskElement.classList.add('completed-task');
     
     const pingSound = document.getElementById("ping-sound");
@@ -149,12 +186,14 @@ function markTask(index) {
       });
     }
   } else {
-    // Restore original task display if unchecked
     taskElement.classList.remove('completed-task');
     taskElement.innerHTML = `
-      <span>${currentRoutine[index].task}</span>
-      <span>${currentRoutine[index].time}</span>
-      <input type="checkbox" id="task-${index}" onchange="markTask(${index})" ${checkbox.checked ? 'checked' : ''}>
+      <div class="task-content">
+        <span>${currentRoutine[index].task}</span>
+        <span>${currentRoutine[index].time}</span>
+        <input type="checkbox" id="task-${index}" onchange="markTask(${index})" ${checkbox.checked ? 'checked' : ''}>
+      </div>
+      <button class="delete-btn" onclick="deleteTask(${index})">×</button>
     `;
   }
   
@@ -250,6 +289,15 @@ function resetRoutine() {
   document.getElementById("timer-display").textContent = "";
   document.getElementById("current-activity").textContent = "";
   document.getElementById("completion-message").classList.add("hidden");
+}
+
+function deleteTask(index) {
+  if (confirm('Are you sure you want to delete this task?')) {
+    routines[currentRoutineName].splice(index, 1);
+    loadRoutine(currentRoutineName);
+    saveRoutines();
+    showToast('Task deleted');
+  }
 }
 
 // Load saved routines when the page loads
