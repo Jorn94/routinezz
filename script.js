@@ -49,7 +49,15 @@ function displayCurrentTask() {
 
 function markTask(index) {
   const pingSound = document.getElementById("ping-sound");
-  pingSound.play();
+  if (pingSound) {
+    pingSound.currentTime = 0; // Reset the audio to start
+    pingSound.play().catch(error => {
+      console.error("Error playing ping sound:", error);
+    });
+  } else {
+    console.error("Ping sound element not found!");
+  }
+  
   if (index === currentTaskIndex) {
     currentTaskIndex++;
     displayCurrentTask();
