@@ -183,7 +183,7 @@ function addTask() {
   if (!taskTime) return;
   
   // Validate time format
-  if (!timeStr.includes('min') && !timeStr.includes('hrs') && !timeStr.includes('sec')) {
+  if (!taskTime.includes('min') && !taskTime.includes('hrs') && !taskTime.includes('sec')) {
     showToast('Invalid time format. Please use "min", "hrs", or "sec"');
     return;
   }
@@ -194,6 +194,7 @@ function addTask() {
   });
   
   loadRoutine(currentRoutineName);
+  saveRoutines(); // Auto-save when adding a task
   showToast('Task added successfully!');
 }
 
