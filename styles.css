@@ -20,17 +20,19 @@ h1 {
 }
 
 button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
+  background-color: var(--darker-bg);
+  color: var(--text);
+  border: 1px solid var(--accent);
   padding: 10px 20px;
   font-size: 16px;
   margin: 5px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: var(--accent);
+  color: var(--dark-bg);
 }
 
 .hidden {
@@ -59,32 +61,32 @@ button:hover {
 #routine-items li.add-task-button {
   background: none;
   border: none;
-  justify-content: center;
+  width: auto;
+  height: auto;
   padding: 5px;
+  color: var(--accent);
+  font-size: 20px;
 }
 
 #routine-items li.add-task-button button {
   background: none;
-  border: 2px dashed #4caf50;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #4caf50;
+  border: none;
+  width: auto;
+  height: auto;
+  padding: 5px;
+  color: var(--accent);
+  font-size: 20px;
 }
 
 #routine-items li.add-task-button button:hover {
-  background: #4caf50;
-  color: white;
+  background: none;
+  color: var(--text);
 }
 
 #completion-message {
   font-size: 20px;
   margin-top: 20px;
-  color: #4caf50;
+  color: var(--accent);
 }
 
 .button-container {
@@ -97,12 +99,13 @@ button:hover {
 #timer-display {
   font-size: 24px;
   font-weight: bold;
-  color: #4caf50;
+  color: var(--accent);
   margin: 20px 0;
   padding: 15px;
-  background: rgba(76, 175, 80, 0.1);
+  background: var(--darker-bg);
   border-radius: 8px;
   display: inline-block;
+  border: 1px solid var(--accent);
 }
 
 #timer-display.hidden {
