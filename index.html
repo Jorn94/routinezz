@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Routinezz</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
   <div id="app">
@@ -15,13 +16,21 @@
     </div>
     <div id="routine-list" class="hidden">
       <ul id="routine-items"></ul>
-      <button id="start-btn" onclick="startRoutine()">Start Routine</button>
+      <div class="button-container">
+        <button id="start-btn" onclick="startRoutine()">Start Routine</button>
+        <button id="pause-btn" onclick="togglePause()"><i class="fas fa-pause"></i> Pause</button>
+        <button onclick="resetRoutine()"><i class="fas fa-redo"></i> Reset</button>
+        <button onclick="addTask()"><i class="fas fa-plus"></i> Add Task</button>
+        <button onclick="saveRoutines()"><i class="fas fa-save"></i> Save</button>
+      </div>
       <p id="current-activity"></p>
+      <p id="timer-display"></p>
     </div>
     <p id="completion-message" class="hidden">🎉 Congratulations! You've finished your routine! 🎉</p>
+    <div id="toast"></div>
   </div>
   <audio id="ping-sound" src="ping.wav" preload="auto"></audio>
-  <audio id="clap-sound" src="clap.wav"></audio>
+  <audio id="clap-sound" src="clap.mp3" preload="auto"></audio>
   <script src="script.js"></script>
 </body>
 </html>
