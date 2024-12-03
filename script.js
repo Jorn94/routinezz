@@ -1,15 +1,15 @@
 const routines = {
   morning: [
-    { task: "Wake up", time: "5 min" },
-    { task: "Brush teeth", time: "3 min" },
-    { task: "Workout", time: "30 min" },
-    { task: "Breakfast", time: "15 min" }
+    { task: "Wake up", time: "5 min", feeling: "Energized and ready to start the day!" },
+    { task: "Brush teeth", time: "3 min", feeling: "Fresh and clean!" },
+    { task: "Workout", time: "30 min", feeling: "Energized and ready to start the day!" },
+    { task: "Breakfast", time: "15 min", feeling: "Energized and ready to start the day!" }
   ],
   evening: [
-    { task: "Dinner", time: "20 min" },
-    { task: "Relax", time: "30 min" },
-    { task: "Read a book", time: "15 min" },
-    { task: "Sleep", time: "8 hrs" }
+    { task: "Dinner", time: "20 min", feeling: "Energized and ready to start the day!" },
+    { task: "Relax", time: "30 min", feeling: "Relaxed and ready to relax!" },
+    { task: "Read a book", time: "15 min", feeling: "Relaxed and ready to relax!" },
+    { task: "Sleep", time: "8 hrs", feeling: "Energized and ready to start the day!" }
   ]
 };
 
@@ -167,23 +167,29 @@ function displayCurrentTask() {
 
 function markTask(index) {
   const checkbox = document.getElementById(`task-${index}`);
+  const taskElement = checkbox.parentElement;
+  
   if (!checkbox.checked) {
     checkbox.checked = true;
-  }
-
-  const pingSound = document.getElementById("ping-sound");
-  if (pingSound) {
-    pingSound.currentTime = 0;
-    pingSound.play().catch(error => {
-      console.error("Error playing ping sound:", error);
-    });
+    
+    // Show feeling message
+    const feeling = currentRoutine[index].feeling;
+    taskElement.innerHTML = `<div class="feeling-text">${feeling || 'Great job completing this task!'}</div>`;
+    taskElement.classList.add('completed-task');
+    
+    const pingSound = document.getElementById("ping-sound");
+    if (pingSound) {
+      pingSound.currentTime = 0;
+      pingSound.play().catch(error => {
+        console.error("Error playing ping sound:", error);
+      });
+    }
   }
   
   if (index === currentTaskIndex) {
     currentTaskIndex++;
     clearInterval(timer);
     
-    // Check if all tasks are completed
     const allChecked = [...document.querySelectorAll('input[type="checkbox"]')]
       .every(checkbox => checkbox.checked);
     
@@ -211,19 +217,27 @@ function finishRoutine() {
 }
 
 function addTask() {
-  // Check if a routine is selected
   if (!currentRoutineName) {
     showToast('Please select a routine first!');
     return;
   }
+  document.getElementById('add-task-modal').style.display = 'block';
+}
 
-  const taskName = prompt("Enter task name:");
-  if (!taskName) return;
+function closeModal() {
+  document.getElementById('add-task-modal').style.display = 'none';
+}
+
+function submitNewTask() {
+  const taskName = document.getElementById('task-name').value;
+  const taskTime = document.getElementById('task-time').value;
+  const taskFeeling = document.getElementById('task-feeling').value;
   
-  const taskTime = prompt("Enter task time (e.g., '5 min' or '1 hrs'):");
-  if (!taskTime) return;
+  if (!taskName || !taskTime) {
+    showToast('Please fill in all required fields');
+    return;
+  }
   
-  // Validate time format
   if (!taskTime.includes('min') && !taskTime.includes('hrs') && !taskTime.includes('sec')) {
     showToast('Invalid time format. Please use "min", "hrs", or "sec"');
     return;
@@ -231,12 +245,19 @@ function addTask() {
   
   routines[currentRoutineName].push({
     task: taskName,
-    time: taskTime
+    time: taskTime,
+    feeling: taskFeeling
   });
   
+  closeModal();
   loadRoutine(currentRoutineName);
-  saveRoutines(); // Auto-save when adding a task
+  saveRoutines();
   showToast('Task added successfully!');
+  
+  // Clear the form
+  document.getElementById('task-name').value = '';
+  document.getElementById('task-time').value = '';
+  document.getElementById('task-feeling').value = '';
 }
 
 function togglePause() {
@@ -244,9 +265,9 @@ function togglePause() {
   const pauseBtn = document.getElementById('pause-btn');
   pauseBtn.innerHTML = `<i class="fas ${isPaused ? 'fa-play' : 'fa-pause'}"></i> ${isPaused ? 'Resume' : 'Pause'}`;
   
-  // Update display while paused
+  const currentActivity = document.getElementById("current-activity");
   if (isPaused) {
-    document.getElementById("current-activity").textContent += " (PAUSED)";
+    currentActivity.textContent = `${currentActivity.textContent} (PAUSED)`;
   } else {
     displayCurrentTask();
   }

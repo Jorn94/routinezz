@@ -32,5 +32,17 @@
   <audio id="ping-sound" src="ping.wav" preload="auto"></audio>
   <audio id="clap-sound" src="clap.mp3" preload="auto"></audio>
   <script src="script.js"></script>
+  <div id="add-task-modal" class="modal">
+    <div class="modal-content">
+      <h2>Add New Task</h2>
+      <input type="text" id="task-name" placeholder="Task name">
+      <input type="text" id="task-time" placeholder="Time (e.g. 5 min, 1 hrs)">
+      <textarea id="task-feeling" placeholder="How will you feel after completing this task?"></textarea>
+      <div class="button-container">
+        <button onclick="submitNewTask()">Add Task</button>
+        <button onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

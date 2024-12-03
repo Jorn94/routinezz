@@ -1,7 +1,15 @@
+:root {
+  --dark-bg: #1a1a1a;
+  --darker-bg: #242424;
+  --accent: #4caf50;
+  --text: #e0e0e0;
+  --text-secondary: #a0a0a0;
+}
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: var(--dark-bg);
+  color: var(--text);
   margin: 0;
   padding: 20px;
   text-align: center;
@@ -42,9 +50,10 @@ button:hover {
   justify-content: space-between;
   margin: 5px 0;
   padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: var(--darker-bg);
+  border: 1px solid #333;
   border-radius: 5px;
+  color: var(--text);
 }
 
 #routine-items li.add-task-button {
@@ -132,4 +141,47 @@ button:hover {
 
 button i {
   margin-right: 5px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--darker-bg);
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  color: var(--text);
+}
+
+.modal input, .modal textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  background-color: var(--dark-bg);
+  border: 1px solid #444;
+  color: var(--text);
+  border-radius: 4px;
+}
+
+.completed-task {
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  border: 1px solid var(--accent) !important;
+}
+
+.feeling-text {
+  color: var(--accent);
+  font-style: italic;
+  text-align: center;
+  padding: 10px;
 }
