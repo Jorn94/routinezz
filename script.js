@@ -239,20 +239,14 @@ function resetRoutine() {
   isPaused = false;
   currentTaskIndex = 0;
   
+  // Reset pause button
   const pauseBtn = document.getElementById('pause-btn');
   pauseBtn.innerHTML = `<i class="fas fa-pause"></i> Pause`;
   
-  // Reset task elements to original state
-  currentRoutine.forEach((item, index) => {
-    const taskElement = document.getElementById(`task-${index}`).parentElement;
-    taskElement.classList.remove('completed-task'); // Remove completed class
-    taskElement.innerHTML = `
-      <span>${item.task}</span>
-      <span>${item.time}</span>
-      <input type="checkbox" id="task-${index}" onchange="markTask(${index})">
-    `;
-  });
+  // Reload the entire routine to reset all tasks
+  loadRoutine(currentRoutineName);
   
+  // Clear displays
   document.getElementById("timer-display").textContent = "";
   document.getElementById("current-activity").textContent = "";
   document.getElementById("completion-message").classList.add("hidden");
