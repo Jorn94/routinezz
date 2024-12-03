@@ -29,6 +29,7 @@ button {
   margin: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
+  border-radius: 8px;
 }
 
 button:hover {
@@ -55,7 +56,7 @@ button:hover {
   padding: 10px;
   background-color: var(--darker-bg);
   border: 1px solid #333;
-  border-radius: 5px;
+  border-radius: 10px;
   color: var(--text);
 }
 
@@ -109,7 +110,7 @@ button:hover {
   margin: 20px 0;
   padding: 15px;
   background: var(--darker-bg);
-  border-radius: 8px;
+  border-radius: 12px;
   display: inline-block;
   border: 1px solid var(--accent);
 }
@@ -124,7 +125,7 @@ button:hover {
   background-color: #333;
   color: #fff;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 8px;
   padding: 16px;
   position: fixed;
   z-index: 1;
@@ -167,7 +168,7 @@ button i {
   background-color: var(--darker-bg);
   margin: 15% auto;
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 16px;
   width: 90%;
   max-width: 400px;
   border: 1px solid var(--border);
@@ -189,7 +190,7 @@ button i {
   background-color: var(--dark-bg);
   border: 1px solid var(--border);
   color: var(--text);
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
 }
 

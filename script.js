@@ -135,10 +135,8 @@ function markTask(index) {
   const checkbox = document.getElementById(`task-${index}`);
   const taskElement = checkbox.parentElement;
   
-  if (!checkbox.checked) {
-    checkbox.checked = true;
-    
-    // Show feeling message
+  // Show feeling message whenever checkbox is checked
+  if (checkbox.checked) {
     const feeling = currentRoutine[index].feeling;
     taskElement.innerHTML = `<div class="feeling-text">${feeling || 'Great job completing this task!'}</div>`;
     taskElement.classList.add('completed-task');
@@ -150,6 +148,14 @@ function markTask(index) {
         console.error("Error playing ping sound:", error);
       });
     }
+  } else {
+    // Restore original task display if unchecked
+    taskElement.classList.remove('completed-task');
+    taskElement.innerHTML = `
+      <span>${currentRoutine[index].task}</span>
+      <span>${currentRoutine[index].time}</span>
+      <input type="checkbox" id="task-${index}" onchange="markTask(${index})" ${checkbox.checked ? 'checked' : ''}>
+    `;
   }
   
   if (index === currentTaskIndex) {
