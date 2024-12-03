@@ -33,12 +33,12 @@
   <script src="script.js"></script>
   <div id="add-task-modal" class="modal">
     <div class="modal-content">
-      <h2>Add New Task</h2>
+      <h2>New Task</h2>
       <input type="text" id="task-name" placeholder="Task name">
-      <input type="text" id="task-time" placeholder="Time (e.g. 5 min, 1 hrs)">
-      <textarea id="task-feeling" placeholder="How will you feel after completing this task?"></textarea>
+      <input type="number" id="task-time" placeholder="Time in minutes">
+      <textarea id="task-feeling" placeholder="How will you feel after completing this?"></textarea>
       <div class="button-container">
-        <button onclick="submitNewTask()">Add Task</button>
+        <button onclick="submitNewTask()">Add</button>
         <button onclick="closeModal()">Cancel</button>
       </div>
     </div>

@@ -60,15 +60,11 @@ function parseTime(timeStr) {
 }
 
 function loadRoutine(name) {
-  // Clear previous state
-  clearInterval(timer);
-  isPaused = false;
-  currentTaskIndex = 0;
-  
   currentRoutineName = name;
   currentRoutine = routines[name];
   const routineItems = document.getElementById("routine-items");
   routineItems.innerHTML = "";
+  
   currentRoutine.forEach((item, index) => {
     const li = document.createElement("li");
     li.innerHTML = `
@@ -79,17 +75,15 @@ function loadRoutine(name) {
     routineItems.appendChild(li);
   });
 
-  // Add the + button after all tasks
+  // Add just the + symbol
   const addTaskLi = document.createElement("li");
   addTaskLi.className = "add-task-button";
-  addTaskLi.innerHTML = `<button onclick="addTask()"><i class="fas fa-plus"></i></button>`;
+  addTaskLi.innerHTML = `<button onclick="addTask()">+</button>`;
   routineItems.appendChild(addTaskLi);
 
   document.getElementById("routine-list").classList.remove("hidden");
   document.getElementById("completion-message").classList.add("hidden");
   document.getElementById("timer-display").textContent = "";
-  clearInterval(timer);
-  currentTaskIndex = 0;
 }
 
 function startRoutine() {
@@ -230,22 +224,17 @@ function closeModal() {
 
 function submitNewTask() {
   const taskName = document.getElementById('task-name').value;
-  const taskTime = document.getElementById('task-time').value;
+  const taskMinutes = document.getElementById('task-time').value;
   const taskFeeling = document.getElementById('task-feeling').value;
   
-  if (!taskName || !taskTime) {
-    showToast('Please fill in all required fields');
-    return;
-  }
-  
-  if (!taskTime.includes('min') && !taskTime.includes('hrs') && !taskTime.includes('sec')) {
-    showToast('Invalid time format. Please use "min", "hrs", or "sec"');
+  if (!taskName || !taskMinutes || !taskFeeling) {
+    showToast('Please fill in all fields');
     return;
   }
   
   routines[currentRoutineName].push({
     task: taskName,
-    time: taskTime,
+    time: `${taskMinutes} min`,
     feeling: taskFeeling
   });
   

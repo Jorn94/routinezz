@@ -1,9 +1,10 @@
 :root {
-  --dark-bg: #1a1a1a;
-  --darker-bg: #242424;
+  --dark-bg: #121212;
+  --darker-bg: #1e1e1e;
   --accent: #4caf50;
-  --text: #e0e0e0;
-  --text-secondary: #a0a0a0;
+  --text: #ffffff;
+  --text-secondary: #b3b3b3;
+  --border: #333333;
 }
 
 body {
@@ -61,25 +62,21 @@ button:hover {
 #routine-items li.add-task-button {
   background: none;
   border: none;
-  width: auto;
-  height: auto;
-  padding: 5px;
-  color: var(--accent);
-  font-size: 20px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
 }
 
 #routine-items li.add-task-button button {
   background: none;
   border: none;
-  width: auto;
-  height: auto;
-  padding: 5px;
   color: var(--accent);
-  font-size: 20px;
+  font-size: 24px;
+  padding: 5px;
+  cursor: pointer;
 }
 
 #routine-items li.add-task-button button:hover {
-  background: none;
   color: var(--text);
 }
 
@@ -160,21 +157,35 @@ button i {
 .modal-content {
   background-color: var(--darker-bg);
   margin: 15% auto;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 500px;
-  color: var(--text);
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.modal input, .modal textarea {
-  width: 100%;
-  padding: 8px;
-  margin: 10px 0;
-  background-color: var(--dark-bg);
-  border: 1px solid #444;
+.modal-content h2 {
+  margin-top: 0;
   color: var(--text);
-  border-radius: 4px;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.modal-content input, 
+.modal-content textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 16px;
+  background-color: var(--dark-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.modal-content .button-container {
+  margin-top: 20px;
 }
 
 .completed-task {
