@@ -66,6 +66,8 @@ button:hover {
   display: flex;
   justify-content: center;
   width: 100%;
+  margin: 0 auto;
+  max-width: 200px;
 }
 
 #routine-items li.add-task-button button {
@@ -80,6 +82,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 #routine-items li.add-task-button button:hover {
